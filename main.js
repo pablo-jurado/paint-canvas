@@ -2,18 +2,25 @@ const canvas = document.getElementById("draw");
 const clearButton = document.getElementById("clear");
 const undoButton = document.getElementById("undo");
 const redoButton = document.getElementById("redo");
+const colorsButton = document.querySelector(".colors");
 
-// canvas.width = 600;
-// canvas.height = 600;
-const ctx = canvas.getContext("2d");
-ctx.strokeStyle = "#000";
-ctx.lineJoin = "round";
-ctx.lineCap = "round";
-ctx.lineWidth = 2;
+const colorOptions = {
+  black: "#000",
+  red: "#f44336",
+  green: "#4caf50"
+};
 
 let currentStrokeXY = [];
 let allStrokes = [];
 let strokeIndex = 0;
+let selectedColor = colorOptions.black;
+
+// canvas.width = 600;
+// canvas.height = 600;
+const ctx = canvas.getContext("2d");
+ctx.lineJoin = "round";
+ctx.lineCap = "round";
+ctx.lineWidth = 2;
 
 let isDrawing = false;
 let fromX = null;
@@ -23,12 +30,14 @@ function draw(event) {
   if (isDrawing) {
     let toX = event.offsetX;
     let toY = event.offsetY;
-    saveXY(fromX, fromY, toX, toY);
-    paint(fromX, fromY, toX, toY);
+    saveXY(fromX, fromY, toX, toY, selectedColor);
+    paint(fromX, fromY, toX, toY, selectedColor);
   }
 }
 
-function paint(x, y, toX, toY) {
+function paint(x, y, toX, toY, selectedColor) {
+  console.log(selectedColor);
+  ctx.strokeStyle = selectedColor;
   ctx.beginPath();
   ctx.moveTo(x, y);
   ctx.lineTo(toX, toY);
@@ -42,7 +51,8 @@ function saveXY(fromX, fromY, toX, toY) {
     fromX,
     fromY,
     toX,
-    toY
+    toY,
+    selectedColor
   });
 }
 
@@ -93,7 +103,7 @@ function repaint() {
   for (let index = 0; index < strokeIndex; index++) {
     const strokes = allStrokes[index];
     strokes.forEach(item => {
-      paint(item.fromX, item.fromY, item.toX, item.toY);
+      paint(item.fromX, item.fromY, item.toX, item.toY, item.selectedColor);
     });
   }
 }
@@ -103,6 +113,13 @@ function handleClearButton() {
   currentStrokeXY = [];
   allStrokes = [];
   strokeIndex = 0;
+}
+
+function handleColorsButton(event) {
+  var color = event.target.id;
+  if (color) {
+    selectedColor = colorOptions[color];
+  }
 }
 
 // mouse events
@@ -115,3 +132,4 @@ canvas.addEventListener("mouseout", handleMouseOut);
 clearButton.addEventListener("click", handleClearButton);
 undoButton.addEventListener("click", handleUndoButton);
 redoButton.addEventListener("click", handleRedoButton);
+colorsButton.addEventListener("click", handleColorsButton);
