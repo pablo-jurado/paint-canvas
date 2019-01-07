@@ -1,7 +1,7 @@
 const canvas = document.getElementById("draw");
 const clearButton = document.getElementById("clear");
-const backButton = document.getElementById("back");
-const forwardButton = document.getElementById("forward");
+const undoButton = document.getElementById("undo");
+const redoButton = document.getElementById("redo");
 
 // canvas.width = 600;
 // canvas.height = 600;
@@ -73,32 +73,36 @@ function clearCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-function handleBack() {
-  clearCanvas();
-  strokeIndex = strokeIndex - 1;
-
-  if (strokeIndex > 0) {
-    for (let index = 0; index < strokeIndex; index++) {
-      const strokes = allStrokes[index];
-      strokes.forEach(item => {
-        paint(item.fromX, item.fromY, item.toX, item.toY);
-      });
-    }
+function handleUndoButton() {
+  if (strokeIndex - 1 >= 0) {
+    strokeIndex = strokeIndex - 1;
+    repaint();
   }
 }
 
-function handleForward() {
-  clearCanvas();
-  strokeIndex = strokeIndex + 1;
-
-  if (strokeIndex <= allStrokes.length) {
-    for (let index = 0; index < strokeIndex; index++) {
-      const strokes = allStrokes[index];
-      strokes.forEach(item => {
-        paint(item.fromX, item.fromY, item.toX, item.toY);
-      });
-    }
+function handleRedoButton() {
+  if (strokeIndex + 1 <= allStrokes.length) {
+    strokeIndex = strokeIndex + 1;
+    repaint();
   }
+}
+
+function repaint() {
+  clearCanvas();
+
+  for (let index = 0; index < strokeIndex; index++) {
+    const strokes = allStrokes[index];
+    strokes.forEach(item => {
+      paint(item.fromX, item.fromY, item.toX, item.toY);
+    });
+  }
+}
+
+function handleClearButton() {
+  clearCanvas();
+  currentStrokeXY = [];
+  allStrokes = [];
+  strokeIndex = 0;
 }
 
 // mouse events
@@ -108,6 +112,6 @@ canvas.addEventListener("mouseup", handleMouseUp);
 canvas.addEventListener("mouseout", handleMouseOut);
 
 //buttons events
-clearButton.addEventListener("click", clearCanvas);
-backButton.addEventListener("click", handleBack);
-forwardButton.addEventListener("click", handleForward);
+clearButton.addEventListener("click", handleClearButton);
+undoButton.addEventListener("click", handleUndoButton);
+redoButton.addEventListener("click", handleRedoButton);
