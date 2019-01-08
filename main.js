@@ -11,9 +11,18 @@ const ctx = canvas.getContext("2d");
 ctx.lineJoin = "round";
 
 const colorOptions = {
-  black: "#000",
+  white: "#fff",
+  grey: "#afafaf",
   red: "#f44336",
-  green: "#4caf50"
+  green: "#4caf50",
+  yellow: "#def03c",
+  blue: "#2926dd",
+  black: "#000",
+  "dark-grey": "#616161",
+  "dark-red": "#922921",
+  "dark-green": "#2e6d30",
+  "dark-yellow": "#8f9b23",
+  "dark-blue": "#171585"
 };
 
 const shapeOptions = {
@@ -28,15 +37,15 @@ const sizeOptions = {
 };
 
 const canvasSizeOptions = {
-  "canvas-small": 300,
-  "canvas-medium": 450,
-  "canvas-large": 600
+  "canvas-small": [200, 300],
+  "canvas-medium": [300, 450],
+  "canvas-large": [400, 650]
 };
 
 let stroke = {
   color: colorOptions.black,
   shape: shapeOptions.round,
-  size: sizeOptions.small,
+  size: sizeOptions["stroke-small"],
   x: null,
   y: null
 };
@@ -143,6 +152,7 @@ function handleClearButton() {
 }
 
 function handleColorsButton(event) {
+  console.log("click");
   var color = event.target.id;
   if (color) stroke.color = colorOptions[color];
 }
@@ -160,8 +170,8 @@ function handleSizeButton(event) {
 function handleCanvasButton(event) {
   var size = event.target.id;
   if (size) {
-    canvas.width = canvasSizeOptions[size];
-    canvas.height = canvasSizeOptions[size];
+    canvas.height = canvasSizeOptions[size][0];
+    canvas.width = canvasSizeOptions[size][1];
     repaint();
   }
 }

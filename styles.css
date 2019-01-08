@@ -1,0 +1,150 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  background: #008080;
+}
+
+.paint {
+  background: #bcbebc;
+  padding: 10px;
+  padding-bottom: 20px;
+  margin: 20px;
+  border: solid 1px black;
+  display: table;
+  margin: 5% auto;
+  min-width: 700px;
+  box-shadow: 0 0 50px #015252;
+}
+
+.title {
+  color: white;
+  background: linear-gradient(to right, #0a396f 0%, #7db9e8 100%);
+  padding: 10px;
+  height: 20px;
+  position: relative;
+}
+
+#draw {
+  background-color: #fff;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  font-weight: 500;
+}
+nav li {
+  display: inline-block;
+  padding: 5px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  display: none;
+  background: lightgrey;
+  position: absolute;
+  color: black;
+  white-space: nowrap;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+  position: absolute;
+  left: -5px;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 7px 15px;
+}
+
+.dropdown-menu a:hover {
+  cursor: pointer;
+  background: blue;
+  color: white;
+}
+
+.color-wrapper {
+  display: flex;
+}
+
+#selectedColor {
+  margin: 2px;
+  border: solid 2px;
+  border-top-color: #272727;
+  border-left-color: #272727;
+  border-right-color: #ececec;
+  border-bottom-color: #ececec;
+
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+}
+
+.colors > div {
+  display: flex;
+}
+
+.colors button {
+  margin: 2px;
+  border: solid 2px;
+  border-top-color: #272727;
+  border-left-color: #272727;
+  border-right-color: #ececec;
+  border-bottom-color: #ececec;
+
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+}
+
+.colors #white {
+  background-color: #fff;
+}
+
+.colors #grey {
+  background-color: #afafaf;
+}
+
+.colors #red {
+  background-color: #f44336;
+}
+
+.colors #green {
+  background-color: #4caf50;
+}
+
+.colors #yellow {
+  background-color: #def03c;
+}
+
+.colors #blue {
+  background-color: #2926dd;
+}
+
+.colors #black {
+  background-color: #000;
+}
+
+.colors #dark-grey {
+  background-color: #616161;
+}
+
+.colors #dark-red {
+  background-color: #922921;
+}
+
+.colors #dark-green {
+  background-color: #2e6d30;
+}
+
+.colors #dark-yellow {
+  background-color: #8f9b23;
+}
+
+.colors #dark-blue {
+  background-color: #171585;
+}
