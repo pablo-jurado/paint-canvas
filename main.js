@@ -3,6 +3,8 @@ const clearButton = document.getElementById("clear");
 const undoButton = document.getElementById("undo");
 const redoButton = document.getElementById("redo");
 const colorsButton = document.querySelector(".colors");
+const strokesButton = document.querySelector(".strokes");
+const strokeSizeButton = document.querySelector(".strokeSize");
 
 const colorOptions = {
   black: "#000",
@@ -10,17 +12,27 @@ const colorOptions = {
   green: "#4caf50"
 };
 
+const strokeOptions = {
+  round: "round",
+  square: "square"
+};
+
+const strokeSizeOptions = {
+  small: 1,
+  medium: 10,
+  large: 20
+};
 let currentStrokeXY = [];
 let allStrokes = [];
 let strokeIndex = 0;
 let selectedColor = colorOptions.black;
+let selectedStroke = strokeOptions.round;
+let selectedStrokeSize = strokeSizeOptions.small;
 
 // canvas.width = 600;
 // canvas.height = 600;
 const ctx = canvas.getContext("2d");
 ctx.lineJoin = "round";
-ctx.lineCap = "round";
-ctx.lineWidth = 2;
 
 let isDrawing = false;
 let fromX = null;
@@ -30,13 +42,39 @@ function draw(event) {
   if (isDrawing) {
     let toX = event.offsetX;
     let toY = event.offsetY;
-    saveXY(fromX, fromY, toX, toY, selectedColor);
-    paint(fromX, fromY, toX, toY, selectedColor);
+    paint(
+      fromX,
+      fromY,
+      toX,
+      toY,
+      selectedColor,
+      selectedStroke,
+      selectedStrokeSize
+    );
   }
 }
 
-function paint(x, y, toX, toY, selectedColor) {
-  console.log(selectedColor);
+function paint(
+  x,
+  y,
+  toX,
+  toY,
+  selectedColor,
+  selectedStroke,
+  selectedStrokeSize
+) {
+  currentStrokeXY.push({
+    fromX,
+    fromY,
+    toX,
+    toY,
+    selectedColor,
+    selectedStroke,
+    selectedStrokeSize
+  });
+
+  ctx.lineWidth = selectedStrokeSize;
+  ctx.lineCap = selectedStroke;
   ctx.strokeStyle = selectedColor;
   ctx.beginPath();
   ctx.moveTo(x, y);
@@ -44,16 +82,6 @@ function paint(x, y, toX, toY, selectedColor) {
   ctx.stroke();
   fromX = toX;
   fromY = toY;
-}
-
-function saveXY(fromX, fromY, toX, toY) {
-  currentStrokeXY.push({
-    fromX,
-    fromY,
-    toX,
-    toY,
-    selectedColor
-  });
 }
 
 function handleMouseDown(event) {
@@ -103,7 +131,15 @@ function repaint() {
   for (let index = 0; index < strokeIndex; index++) {
     const strokes = allStrokes[index];
     strokes.forEach(item => {
-      paint(item.fromX, item.fromY, item.toX, item.toY, item.selectedColor);
+      paint(
+        item.fromX,
+        item.fromY,
+        item.toX,
+        item.toY,
+        item.selectedColor,
+        item.selectedStroke,
+        item.selectedStrokeSize
+      );
     });
   }
 }
@@ -122,6 +158,20 @@ function handleColorsButton(event) {
   }
 }
 
+function handleStrokesButton(event) {
+  var stroke = event.target.id;
+  if (stroke) {
+    selectedStroke = strokeOptions[stroke];
+  }
+}
+
+function handlestrokeSizeButtonButton(e) {
+  var strokeSize = event.target.id;
+  if (strokeSize) {
+    selectedStrokeSize = strokeSizeOptions[strokeSize];
+  }
+}
+
 // mouse events
 canvas.addEventListener("mousemove", draw);
 canvas.addEventListener("mousedown", handleMouseDown);
@@ -133,3 +183,5 @@ clearButton.addEventListener("click", handleClearButton);
 undoButton.addEventListener("click", handleUndoButton);
 redoButton.addEventListener("click", handleRedoButton);
 colorsButton.addEventListener("click", handleColorsButton);
+strokesButton.addEventListener("click", handleStrokesButton);
+strokeSizeButton.addEventListener("click", handlestrokeSizeButtonButton);
