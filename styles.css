@@ -40,11 +40,11 @@ nav li {
 
 .dropdown {
   position: relative;
+  background-color: #bcbebc;
 }
 
 .dropdown-menu {
   display: none;
-  background: lightgrey;
   position: absolute;
   color: black;
   white-space: nowrap;
@@ -56,14 +56,25 @@ nav li {
   left: -5px;
 }
 
-.dropdown-menu a {
+.dropdown button,
+.dropdown-menu button {
+  background-color: #bcbebc;
+  border: none;
+  font-weight: 500;
+  font-size: 1em;
   display: block;
+  width: 100%;
   padding: 7px 15px;
 }
 
-.dropdown-menu a:hover {
-  cursor: pointer;
+.dropdown-menu button {
+  border: solid 1px grey;
+}
+
+.dropdown button:hover,
+.dropdown-menu button:hover {
   background: blue;
+  cursor: pointer;
   color: white;
 }
 

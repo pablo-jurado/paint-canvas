@@ -15,38 +15,42 @@
   <body>
     <div class="paint">
       <div class="title">Untitled - Paint</div>
+
       <nav>
         <ul>
           <li>
             <div class="dropdown">
-              <div>File</div>
+              <button>File</button>
               <div class="dropdown-menu">
-                <a id="clear">New File</a> <a>Save</a> <a>Open</a>
+                <button id="clear">New File</button>
+                <button id="save">Save</button> <button id="open">Open</button>
               </div>
             </div>
           </li>
           <li>
             <div class="dropdown">
-              <div>Edit</div>
+              <button>Edit</button>
               <div class="dropdown-menu">
-                <a id="undo">Undo Ctrl+Z</a> <a id="redo">Redo Ctrl+Y</a>
+                <button id="undo">Undo Ctrl+Z</button>
+                <button id="redo">Redo Ctrl+Y</button>
               </div>
             </div>
           </li>
           <li>
             <div class="dropdown">
-              <div>View</div>
+              <button>View</button>
               <div class="dropdown-menu canvasSize">
-                <div><a id="canvas-small">25%</a></div>
-                <div><a id="canvas-medium">50%</a></div>
-                <div><a id="canvas-large">100%</a></div>
+                <button id="canvas-small">25%</button>
+                <button id="canvas-medium">50%</button>
+                <button id="canvas-large">100%</button>
               </div>
             </div>
           </li>
         </ul>
       </nav>
-      <hr />
+
       <canvas id="draw" height="400" width="650"></canvas> <br />
+
       <div class="color-wrapper">
         <div id="selectedColor"></div>
         <div class="colors">

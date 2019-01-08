@@ -6,6 +6,7 @@ const colorsButton = document.querySelector(".colors");
 const shapeButton = document.querySelector(".strokes");
 const sizeButton = document.querySelector(".strokeSize");
 const canvasSizeButton = document.querySelector(".canvasSize");
+const selectedColor = document.getElementById("selectedColor");
 
 const ctx = canvas.getContext("2d");
 ctx.lineJoin = "round";
@@ -50,6 +51,7 @@ let stroke = {
   y: null
 };
 
+selectedColor.style.backgroundColor = stroke.color;
 let currentStroke = [];
 let allStrokes = [];
 let strokeIndex = 0;
@@ -152,9 +154,11 @@ function handleClearButton() {
 }
 
 function handleColorsButton(event) {
-  console.log("click");
   var color = event.target.id;
-  if (color) stroke.color = colorOptions[color];
+  if (color) {
+    stroke.color = colorOptions[color];
+    selectedColor.style.backgroundColor = colorOptions[color];
+  }
 }
 
 function handleShapeButton(event) {
