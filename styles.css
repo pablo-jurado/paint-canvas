@@ -26,6 +26,8 @@ body {
 
 #draw {
   background-color: #fff;
+  border: solid grey 1px;
+  margin: 0 10px;
 }
 
 nav ul {
@@ -92,9 +94,16 @@ nav li {
   margin-right: 2px;
 }
 
+.brushes {
+  display: flex;
+  flex-direction: column;
+}
+
 .tools button {
+  cursor: pointer;
   background: #bcbebc;
   margin: 0px;
+  padding: 0px;
   border: solid 1px #272727;
   display: inline-block;
   height: 30px;
@@ -123,6 +132,7 @@ nav li {
 }
 
 .colors button {
+  cursor: pointer;
   margin: 2px;
   border: solid 2px;
   border-top-color: #272727;

@@ -3,12 +3,11 @@ const clearButton = document.getElementById("clear");
 const undoButton = document.getElementById("undo");
 const redoButton = document.getElementById("redo");
 const colorsButton = document.querySelector(".colors");
-const shapeButton = document.querySelector(".strokes");
-const sizeButton = document.querySelector(".strokeSize");
 const canvasSizeButton = document.querySelector(".canvasSize");
 const selectedColor = document.getElementById("selectedColor");
 const penButton = document.getElementById("pen");
 const eraserButton = document.getElementById("eraser");
+const brushesButton = document.querySelector(".brushes-wrapper");
 
 const ctx = canvas.getContext("2d");
 ctx.lineJoin = "round";
@@ -34,9 +33,9 @@ const shapeOptions = {
 };
 
 const sizeOptions = {
-  "stroke-small": 1,
-  "stroke-medium": 10,
-  "stroke-large": 20
+  small: 1,
+  medium: 10,
+  large: 20
 };
 
 const canvasSizeOptions = {
@@ -48,7 +47,7 @@ const canvasSizeOptions = {
 let stroke = {
   color: null,
   shape: shapeOptions.round,
-  size: sizeOptions["stroke-small"],
+  size: sizeOptions.small,
   x: null,
   y: null
 };
@@ -168,16 +167,6 @@ function handleColorsButton(event) {
   }
 }
 
-function handleShapeButton(event) {
-  var shape = event.target.id;
-  if (shape) stroke.shape = shapeOptions[shape];
-}
-
-function handleSizeButton(event) {
-  var size = event.target.id;
-  if (size) stroke.size = sizeOptions[size];
-}
-
 function handleCanvasButton(event) {
   var size = event.target.id;
   if (size) {
@@ -190,7 +179,7 @@ function handleCanvasButton(event) {
 function handlePenButton() {
   updateColor(colorOptions.black);
   stroke.shape = shapeOptions.round;
-  stroke.size = sizeOptions["stroke-small"];
+  stroke.size = sizeOptions.small;
   stroke.x = null;
   stroke.y = null;
 }
@@ -198,9 +187,41 @@ function handlePenButton() {
 function handleEraserButton() {
   updateColor(colorOptions.white);
   stroke.shape = shapeOptions.round;
-  stroke.size = sizeOptions["stroke-medium"];
+  stroke.size = sizeOptions.medium;
   stroke.x = null;
   stroke.y = null;
+}
+
+function handleBrushesButton(event) {
+  var brush = event.target.id;
+  if (brush) {
+    switch (brush) {
+      case "circle-xs":
+        stroke.shape = shapeOptions.round;
+        stroke.size = sizeOptions.small;
+        break;
+      case "circle-sm":
+        stroke.shape = shapeOptions.round;
+        stroke.size = sizeOptions.medium;
+        break;
+      case "circle-lg":
+        stroke.shape = shapeOptions.round;
+        stroke.size = sizeOptions.large;
+        break;
+      case "square-xs":
+        stroke.shape = shapeOptions.square;
+        stroke.size = sizeOptions.small;
+        break;
+      case "square-sm":
+        stroke.shape = shapeOptions.square;
+        stroke.size = sizeOptions.medium;
+        break;
+      case "square-lg":
+        stroke.shape = shapeOptions.square;
+        stroke.size = sizeOptions.large;
+        break;
+    }
+  }
 }
 
 // mouse events
@@ -214,8 +235,7 @@ clearButton.addEventListener("click", handleClearButton);
 undoButton.addEventListener("click", handleUndoButton);
 redoButton.addEventListener("click", handleRedoButton);
 colorsButton.addEventListener("click", handleColorsButton);
-shapeButton.addEventListener("click", handleShapeButton);
-sizeButton.addEventListener("click", handleSizeButton);
 canvasSizeButton.addEventListener("click", handleCanvasButton);
 penButton.addEventListener("click", handlePenButton);
 eraserButton.addEventListener("click", handleEraserButton);
+brushesButton.addEventListener("click", handleBrushesButton);

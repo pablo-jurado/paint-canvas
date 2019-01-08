@@ -13,15 +13,9 @@
     <link rel="stylesheet" href="styles.css" />
     <title>Document</title>
   </head>
-  <style>
-    #draw {
-      border: solid grey 1px;
-    }
-  </style>
   <body>
     <div class="paint">
       <div class="title">Untitled - Paint</div>
-
       <nav>
         <ul>
           <li>
@@ -54,14 +48,28 @@
           </li>
         </ul>
       </nav>
-
       <div class="main-wrapper">
-        <div class="tools">
-          <div>
-            <button id="pen"><i class="fas fa-pencil-alt"></i></button>
+        <div>
+          <div class="tools">
+            <div>
+              <button id="pen"><i class="fas fa-pencil-alt"></i></button>
+            </div>
+            <div>
+              <button id="eraser"><i class="fas fa-eraser"></i></button>
+            </div>
           </div>
-          <div>
-            <button id="eraser"><i class="fas fa-eraser"></i></button>
+          <hr />
+          <div class="tools brushes-wrapper">
+            <div class="brushes">
+              <button id="square-xs" class="fas fa-square fa-xs"></button>
+              <button id="square-sm" class="fas fa-square fa-sm"></button>
+              <button id="square-lg" class="fas fa-square fa-lg"></button>
+            </div>
+            <div class="brushes">
+              <button id="circle-xs" class="fas fa-circle fa-xs"></button>
+              <button id="circle-sm" class="fas fa-circle fa-sm"></button>
+              <button id="circle-lg" class="fas fa-circle fa-lg"></button>
+            </div>
           </div>
         </div>
         <canvas id="draw" height="400" width="650"></canvas> <br />
@@ -81,18 +89,6 @@
             <button id="green"></button><button id="blue"></button>
           </div>
         </div>
-      </div>
-
-      <br />
-      <div class="strokes">
-        <p>Stroke Shape</p>
-        <button id="square">square</button> | <button id="round">round</button>
-      </div>
-      <div class="strokeSize">
-        <p>Stroke sizes</p>
-        <button id="stroke-small">small</button> |
-        <button id="stroke-medium">medium</button> |
-        <button id="stroke-large">large</button>
       </div>
     </div>
 
