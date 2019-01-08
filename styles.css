@@ -78,8 +78,32 @@ nav li {
   color: white;
 }
 
+.main-wrapper {
+  display: flex;
+  margin-bottom: 10px;
+}
+
 .color-wrapper {
   display: flex;
+}
+
+.tools {
+  display: flex;
+  margin-right: 2px;
+}
+
+.tools button {
+  background: #bcbebc;
+  margin: 0px;
+  border: solid 1px #272727;
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+}
+
+.tools button:hover {
+  background: #838583;
+  border: solid 1px #918e8e;
 }
 
 #selectedColor {
@@ -89,7 +113,6 @@ nav li {
   border-left-color: #272727;
   border-right-color: #ececec;
   border-bottom-color: #ececec;
-
   display: inline-block;
   height: 40px;
   width: 40px;

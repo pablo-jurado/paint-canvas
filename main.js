@@ -7,6 +7,8 @@ const shapeButton = document.querySelector(".strokes");
 const sizeButton = document.querySelector(".strokeSize");
 const canvasSizeButton = document.querySelector(".canvasSize");
 const selectedColor = document.getElementById("selectedColor");
+const penButton = document.getElementById("pen");
+const eraserButton = document.getElementById("eraser");
 
 const ctx = canvas.getContext("2d");
 ctx.lineJoin = "round";
@@ -44,14 +46,15 @@ const canvasSizeOptions = {
 };
 
 let stroke = {
-  color: colorOptions.black,
+  color: null,
   shape: shapeOptions.round,
   size: sizeOptions["stroke-small"],
   x: null,
   y: null
 };
 
-selectedColor.style.backgroundColor = stroke.color;
+updateColor(colorOptions.black);
+
 let currentStroke = [];
 let allStrokes = [];
 let strokeIndex = 0;
@@ -73,6 +76,11 @@ function draw(event) {
     });
     paint(x, y, toX, toY, color, shape, size);
   }
+}
+
+function updateColor(color) {
+  stroke.color = color;
+  selectedColor.style.backgroundColor = color;
 }
 
 function paint(x, y, toX, toY, color, shape, size) {
@@ -156,8 +164,7 @@ function handleClearButton() {
 function handleColorsButton(event) {
   var color = event.target.id;
   if (color) {
-    stroke.color = colorOptions[color];
-    selectedColor.style.backgroundColor = colorOptions[color];
+    updateColor(colorOptions[color]);
   }
 }
 
@@ -180,6 +187,22 @@ function handleCanvasButton(event) {
   }
 }
 
+function handlePenButton() {
+  updateColor(colorOptions.black);
+  stroke.shape = shapeOptions.round;
+  stroke.size = sizeOptions["stroke-small"];
+  stroke.x = null;
+  stroke.y = null;
+}
+
+function handleEraserButton() {
+  updateColor(colorOptions.white);
+  stroke.shape = shapeOptions.round;
+  stroke.size = sizeOptions["stroke-medium"];
+  stroke.x = null;
+  stroke.y = null;
+}
+
 // mouse events
 canvas.addEventListener("mousemove", draw);
 canvas.addEventListener("mousedown", handleMouseDown);
@@ -194,3 +217,5 @@ colorsButton.addEventListener("click", handleColorsButton);
 shapeButton.addEventListener("click", handleShapeButton);
 sizeButton.addEventListener("click", handleSizeButton);
 canvasSizeButton.addEventListener("click", handleCanvasButton);
+penButton.addEventListener("click", handlePenButton);
+eraserButton.addEventListener("click", handleEraserButton);
