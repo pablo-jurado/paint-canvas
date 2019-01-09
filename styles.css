@@ -94,7 +94,7 @@ nav li {
   margin-right: 2px;
 }
 
-.brushes {
+.column {
   display: flex;
   flex-direction: column;
 }
@@ -146,49 +146,49 @@ nav li {
 }
 
 .colors #white {
-  background-color: #fff;
+  background-color: rgb(255, 255, 255);
 }
 
 .colors #grey {
-  background-color: #afafaf;
+  background-color: rgb(175, 175, 175);
 }
 
 .colors #red {
-  background-color: #f44336;
+  background-color: rgb(244, 67, 54);
 }
 
 .colors #green {
-  background-color: #4caf50;
+  background-color: rgb(76, 175, 80);
 }
 
 .colors #yellow {
-  background-color: #def03c;
+  background-color: rgb(222, 240, 60);
 }
 
 .colors #blue {
-  background-color: #2926dd;
+  background-color: rgb(41, 38, 221);
 }
 
 .colors #black {
-  background-color: #000;
+  background-color: rgb(0, 0, 0);
 }
 
 .colors #dark-grey {
-  background-color: #616161;
+  background-color: rgb(97, 97, 97);
 }
 
 .colors #dark-red {
-  background-color: #922921;
+  background-color: rgb(146, 41, 33);
 }
 
 .colors #dark-green {
-  background-color: #2e6d30;
+  background-color: rgb(46, 109, 48);
 }
 
 .colors #dark-yellow {
-  background-color: #8f9b23;
+  background-color: rgb(143, 155, 35);
 }
 
 .colors #dark-blue {
-  background-color: #171585;
+  background-color: rgb(23, 21, 133);
 }

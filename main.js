@@ -7,24 +7,27 @@ const canvasSizeButton = document.querySelector(".canvasSize");
 const selectedColor = document.getElementById("selectedColor");
 const penButton = document.getElementById("pen");
 const eraserButton = document.getElementById("eraser");
-const brushesButton = document.querySelector(".brushes-wrapper");
+const bucketButton = document.getElementById("bucket");
+const brushesButton = document.querySelector(".brushes");
 
 const ctx = canvas.getContext("2d");
 ctx.lineJoin = "round";
+ctx.fillStyle = "#fff";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 const colorOptions = {
-  white: "#fff",
-  grey: "#afafaf",
-  red: "#f44336",
-  green: "#4caf50",
-  yellow: "#def03c",
-  blue: "#2926dd",
-  black: "#000",
-  "dark-grey": "#616161",
-  "dark-red": "#922921",
-  "dark-green": "#2e6d30",
-  "dark-yellow": "#8f9b23",
-  "dark-blue": "#171585"
+  white: { r: 255, g: 255, b: 255 },
+  grey: { r: 175, g: 175, b: 175 },
+  red: { r: 245, g: 60, b: 60 },
+  green: { r: 80, g: 180, b: 80 },
+  yellow: { r: 222, g: 240, b: 60 },
+  blue: { r: 40, g: 40, b: 220 },
+  black: { r: 0, g: 0, b: 0 },
+  "dark-grey": { r: 100, g: 100, b: 100 },
+  "dark-red": { r: 140, g: 40, b: 30 },
+  "dark-green": { r: 50, g: 110, b: 50 },
+  "dark-yellow": { r: 150, g: 150, b: 35 },
+  "dark-blue": { r: 20, g: 20, b: 130 }
 };
 
 const shapeOptions = {
@@ -46,6 +49,7 @@ const canvasSizeOptions = {
 
 let stroke = {
   color: null,
+  rgb: null,
   shape: shapeOptions.round,
   size: sizeOptions.small,
   x: null,
@@ -58,6 +62,7 @@ let currentStroke = [];
 let allStrokes = [];
 let strokeIndex = 0;
 let isDrawing = false;
+let isBucket = false;
 
 function draw(event) {
   if (isDrawing) {
@@ -78,8 +83,10 @@ function draw(event) {
 }
 
 function updateColor(color) {
-  stroke.color = color;
-  selectedColor.style.backgroundColor = color;
+  var rgb = `rgba(${color.r}, ${color.g}, ${color.b}, 255)`;
+  stroke.color = rgb;
+  stroke.rgb = color;
+  selectedColor.style.backgroundColor = rgb;
 }
 
 function paint(x, y, toX, toY, color, shape, size) {
@@ -95,9 +102,17 @@ function paint(x, y, toX, toY, color, shape, size) {
 }
 
 function handleMouseDown(event) {
-  isDrawing = true;
-  stroke.x = event.offsetX;
-  stroke.y = event.offsetY;
+  const x = event.offsetX;
+  const y = event.offsetY;
+  if (isBucket) {
+    const oldColor = ctx.getImageData(x, y, 1, 1).data;
+    const newColor = stroke.rgb;
+    paintBucket(x, y, oldColor, newColor);
+  } else {
+    isDrawing = true;
+    stroke.x = x;
+    stroke.y = y;
+  }
 }
 
 function handleMouseUp() {
@@ -153,6 +168,16 @@ function repaint() {
   }
 }
 
+function paintBucket(x, y, oldColor, newColor) {
+  // oldColor and newColor are the same
+  if (
+    newColor.r === oldColor[0] &&
+    newColor.b === oldColor[1] &&
+    newColor.g === oldColor[2]
+  )
+    return console.log("oldColor and newColor are the same");
+}
+
 function handleClearButton() {
   clearCanvas();
   currentStroke = [];
@@ -177,6 +202,8 @@ function handleCanvasButton(event) {
 }
 
 function handlePenButton() {
+  isBucket = false;
+
   updateColor(colorOptions.black);
   stroke.shape = shapeOptions.round;
   stroke.size = sizeOptions.small;
@@ -185,6 +212,8 @@ function handlePenButton() {
 }
 
 function handleEraserButton() {
+  isBucket = false;
+
   updateColor(colorOptions.white);
   stroke.shape = shapeOptions.round;
   stroke.size = sizeOptions.medium;
@@ -224,6 +253,10 @@ function handleBrushesButton(event) {
   }
 }
 
+function handleBucketButton() {
+  isBucket = true;
+}
+
 // mouse events
 canvas.addEventListener("mousemove", draw);
 canvas.addEventListener("mousedown", handleMouseDown);
@@ -239,3 +272,4 @@ canvasSizeButton.addEventListener("click", handleCanvasButton);
 penButton.addEventListener("click", handlePenButton);
 eraserButton.addEventListener("click", handleEraserButton);
 brushesButton.addEventListener("click", handleBrushesButton);
+bucketButton.addEventListener("click", handleBucketButton);
