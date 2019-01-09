@@ -36,9 +36,9 @@ const shapeOptions = {
 };
 
 const sizeOptions = {
-  small: 1,
-  medium: 10,
-  large: 20
+  small: 5,
+  medium: 15,
+  large: 30
 };
 
 const canvasSizeOptions = {
@@ -168,14 +168,82 @@ function repaint() {
   }
 }
 
-function paintBucket(x, y, oldColor, newColor) {
+function paintBucket(_x, _y, oldColor, newColor) {
   // oldColor and newColor are the same
   if (
     newColor.r === oldColor[0] &&
-    newColor.b === oldColor[1] &&
-    newColor.g === oldColor[2]
-  )
-    return console.log("oldColor and newColor are the same");
+    newColor.g === oldColor[1] &&
+    newColor.b === oldColor[2]
+  ) {
+    console.log("oldColor and newColor are the same");
+    return;
+  }
+
+  let canvasWidth = canvas.width;
+  let canvasHeight = canvas.height;
+  let pixelStack = [[_x, _y]];
+  const colorLayer = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+
+  while (pixelStack.length) {
+    let newPos, x, y, pixelPos, reachLeft, reachRight;
+    newPos = pixelStack.pop();
+    x = newPos[0];
+    y = newPos[1];
+
+    pixelPos = (y * canvasWidth + x) * 4;
+    while (y-- >= 0 && matchStartColor(pixelPos)) {
+      pixelPos -= canvasWidth * 4;
+    }
+    pixelPos += canvasWidth * 4;
+    ++y;
+    reachLeft = false;
+    reachRight = false;
+
+    while (y++ < canvasHeight - 1 && matchStartColor(pixelPos)) {
+      paintPixel(pixelPos);
+
+      if (x > 0) {
+        if (matchStartColor(pixelPos - 4)) {
+          if (!reachLeft) {
+            pixelStack.push([x - 1, y]);
+            reachLeft = true;
+          }
+        } else if (reachLeft) {
+          reachLeft = false;
+        }
+      }
+
+      if (x < canvasWidth - 1) {
+        if (matchStartColor(pixelPos + 4)) {
+          if (!reachRight) {
+            pixelStack.push([x + 1, y]);
+            reachRight = true;
+          }
+        } else if (reachRight) {
+          reachRight = false;
+        }
+      }
+
+      pixelPos += canvasWidth * 4;
+    }
+  }
+
+  ctx.putImageData(colorLayer, 0, 0);
+
+  function matchStartColor(pixelPos) {
+    var r = colorLayer.data[pixelPos];
+    var g = colorLayer.data[pixelPos + 1];
+    var b = colorLayer.data[pixelPos + 2];
+
+    return r == oldColor[0] && g == oldColor[1] && b == oldColor[2];
+  }
+
+  function paintPixel(pixelPos) {
+    colorLayer.data[pixelPos] = newColor.r;
+    colorLayer.data[pixelPos + 1] = newColor.g;
+    colorLayer.data[pixelPos + 2] = newColor.b;
+    colorLayer.data[pixelPos + 3] = 255;
+  }
 }
 
 function handleClearButton() {
