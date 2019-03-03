@@ -1,3 +1,6 @@
+//------------------------------------------------------------------------------
+// DOM elements
+//------------------------------------------------------------------------------
 const canvas = document.getElementById("draw");
 const clearButton = document.getElementById("clear");
 const undoButton = document.getElementById("undo");
@@ -11,6 +14,10 @@ const brushesButton = document.querySelector(".brushes-wrapper");
 
 const ctx = canvas.getContext("2d");
 ctx.lineJoin = "round";
+
+//------------------------------------------------------------------------------
+// Constants
+//------------------------------------------------------------------------------
 
 const colorOptions = {
   white: "#fff",
@@ -52,12 +59,20 @@ let stroke = {
   y: null
 };
 
-updateColor(colorOptions.black);
+let keys = {
+  z: false,
+  y: false,
+  Control: false
+}
 
 let currentStroke = [];
 let allStrokes = [];
 let strokeIndex = 0;
 let isDrawing = false;
+
+//------------------------------------------------------------------------------
+// Functions
+//------------------------------------------------------------------------------
 
 function draw(event) {
   if (isDrawing) {
@@ -120,14 +135,14 @@ function clearCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-function handleUndoButton() {
+function handleUndo() {
   if (strokeIndex - 1 >= 0) {
     strokeIndex = strokeIndex - 1;
     repaint();
   }
 }
 
-function handleRedoButton() {
+function handleRedo() {
   if (strokeIndex + 1 <= allStrokes.length) {
     strokeIndex = strokeIndex + 1;
     repaint();
@@ -224,18 +239,49 @@ function handleBrushesButton(event) {
   }
 }
 
-// mouse events
-canvas.addEventListener("mousemove", draw);
-canvas.addEventListener("mousedown", handleMouseDown);
-canvas.addEventListener("mouseup", handleMouseUp);
-canvas.addEventListener("mouseout", handleMouseOut);
+function handleKeyDown(event) {
+  if(event.key === "Control" || event.key === "z" || event.key === "y") {
+    keys[event.key] = true;
+  }
 
-//buttons events
-clearButton.addEventListener("click", handleClearButton);
-undoButton.addEventListener("click", handleUndoButton);
-redoButton.addEventListener("click", handleRedoButton);
-colorsButton.addEventListener("click", handleColorsButton);
-canvasSizeButton.addEventListener("click", handleCanvasButton);
-penButton.addEventListener("click", handlePenButton);
-eraserButton.addEventListener("click", handleEraserButton);
-brushesButton.addEventListener("click", handleBrushesButton);
+  if ( keys.Control && keys.z ) handleUndo();
+  if ( keys.Control && keys.y ) handleRedo();
+}
+
+function handleKeyUp(event) {
+  if(event.key === "Control" || event.key === "z" || event.key === "y") {
+    keys[event.key] = false;
+  }
+}
+
+function addMouseListeners() {
+  canvas.addEventListener("mousemove", draw);
+  canvas.addEventListener("mousedown", handleMouseDown);
+  canvas.addEventListener("mouseup", handleMouseUp);
+  canvas.addEventListener("mouseout", handleMouseOut);
+}
+
+function addButtonsListeners() {
+  clearButton.addEventListener("click", handleClearButton);
+  undoButton.addEventListener("click", handleUndo);
+  redoButton.addEventListener("click", handleRedo);
+  colorsButton.addEventListener("click", handleColorsButton);
+  canvasSizeButton.addEventListener("click", handleCanvasButton);
+  penButton.addEventListener("click", handlePenButton);
+  eraserButton.addEventListener("click", handleEraserButton);
+  brushesButton.addEventListener("click", handleBrushesButton);
+}
+
+function addKeyboardListeners() {
+  document.addEventListener("keydown", handleKeyDown);
+  document.addEventListener("keyup", handleKeyUp);
+}
+
+function init() {
+  addMouseListeners();
+  addButtonsListeners();
+  addKeyboardListeners();
+  updateColor(colorOptions.black);
+}
+
+init();
