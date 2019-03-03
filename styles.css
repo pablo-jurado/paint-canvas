@@ -40,6 +40,23 @@ nav li {
   padding: 5px;
 }
 
+button {
+  margin: 0;
+  line-height: 1;
+  display: inline-block;
+  padding: 5px 8px;
+  background: #c0c0c0;
+  border-top: 2px solid white;
+  border-right: 2px solid #222;
+  border-bottom: 2px solid #222;
+  border-left: 2px solid white;
+  text-align: center;
+  color: #333;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .dropdown {
   position: relative;
   background-color: #bcbebc;
@@ -191,4 +208,105 @@ nav li {
 
 .colors #dark-blue {
   background-color: #171585;
+}
+
+.modal {
+  width: 400px;
+  max-height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -200px 0 0 -200px;
+  z-index: 200;
+  box-shadow: 0 0 20px #008080;
+  background: #BCBEBC;
+  border: solid 1px black;
+
+  pointer-events: none;
+  transform: scale(1.25);
+  opacity: 0;
+}
+
+.modal-body {
+  min-height: 30px;
+  max-height: 180px;
+  margin: 10px;
+  padding: 0;
+}
+
+.modal-body input{
+  width: 98%;
+  border: solid 1px black;
+}
+
+.modal li {
+  list-style: none;
+  padding: 5px 10px;
+}
+
+.modal li.selected {
+  background: blue;
+  color: #fff;
+}
+
+.modal-footer {
+  float: right;
+}
+
+.modal-footer button {
+  width: 80px;
+  margin: 10px;
+}
+
+.active .modal-back {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.active .modal {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.save-title, .open-title,
+.save-footer, .open-footer,
+.save-modal-body, .open-modal-body {
+  display: none;
+}
+
+.save .save-title,
+.save .save-footer,
+.save .save-modal-body {
+  display: inline;
+}
+
+.open .open-title,
+.open .open-footer,
+.open .open-modal-body {
+  display: inline;
+}
+
+.modal-back {
+  background-color: rgba(0, 128, 128, 0.5);
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 5px;
+  z-index: 100;
+
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(1.5);
+}
+
+.modal-back, .modal {
+  transition: all 0.25s ease;
+}
+
+.btns-wrapper {
+  float: right;
 }

@@ -5,11 +5,17 @@ const canvas = document.getElementById("draw");
 const clearButton = document.getElementById("clear");
 const undoButton = document.getElementById("undo");
 const redoButton = document.getElementById("redo");
-const colorsButton = document.querySelector(".colors");
-const canvasSizeButton = document.querySelector(".canvasSize");
-const selectedColor = document.getElementById("selectedColor");
+const saveButton = document.getElementById("save");
+const openButton = document.getElementById("open");
 const penButton = document.getElementById("pen");
 const eraserButton = document.getElementById("eraser");
+const selectedColor = document.getElementById("selectedColor");
+const modal = document.getElementById("modal-wrapper");
+const closeModalButton = document.getElementById("close-modal");
+const cancelModalButton = document.getElementById("cancel-modal");
+
+const colorsButton = document.querySelector(".colors");
+const canvasSizeButton = document.querySelector(".canvasSize");
 const brushesButton = document.querySelector(".brushes-wrapper");
 
 const ctx = canvas.getContext("2d");
@@ -254,6 +260,20 @@ function handleKeyUp(event) {
   }
 }
 
+function handleSaveButton() {
+  // console.log(allStrokes);
+  // console.log(strokeIndex);
+  modal.classList.add("active", "save");
+}
+
+function handleOpenButton() {
+  modal.classList.add("active", "open");
+}
+
+function closeModal() {
+  modal.classList.remove("active", "open", "save");
+}
+
 function addMouseListeners() {
   canvas.addEventListener("mousemove", draw);
   canvas.addEventListener("mousedown", handleMouseDown);
@@ -270,6 +290,10 @@ function addButtonsListeners() {
   penButton.addEventListener("click", handlePenButton);
   eraserButton.addEventListener("click", handleEraserButton);
   brushesButton.addEventListener("click", handleBrushesButton);
+  saveButton.addEventListener("click", handleSaveButton);
+  openButton.addEventListener("click", handleOpenButton);
+  cancelModalButton.addEventListener("click", closeModal);
+  closeModalButton.addEventListener("click", closeModal);
 }
 
 function addKeyboardListeners() {

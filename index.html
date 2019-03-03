@@ -23,8 +23,8 @@
               <button>File</button>
               <div class="dropdown-menu">
                 <button id="clear">New File</button>
-                <!-- <button id="save">Save</button> -->
-                <!-- <button id="open">Open</button> -->
+                <button id="save">Save</button>
+                <button id="open">Open</button>
               </div>
             </div>
           </li>
@@ -91,6 +91,32 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div id="modal-wrapper" class="">
+      <div class="modal">
+        <div class="title">
+          <span class="save-title">Save File</span>
+          <span class="open-title">Open File</span>
+          <div class="btns-wrapper">
+            <button id="close-modal"><i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <input class="save-modal-body" type="text">
+          <ul class="open-modal-body">
+            <li>todo</li>
+            <li>todo</li>
+          </ul>
+        </div>
+        <hr>
+        <div class="modal-footer">
+          <button id="cancel-modal">Cancel</button>
+          <button class="open-footer" id="save-modal">Open</button>
+          <button class="save-footer" id="save-modal">Save</button>
+        </div>
+      </div>
+      <div class="modal-back"></div>
     </div>
 
     <script src="main.js"></script>
