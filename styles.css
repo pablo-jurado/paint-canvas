@@ -239,14 +239,9 @@ button {
   border: solid 1px black;
 }
 
-.modal li {
-  list-style: none;
-  padding: 5px 10px;
-}
-
-.modal li.selected {
-  background: blue;
-  color: #fff;
+.modal select {
+  width: 98%;
+  overflow: auto;
 }
 
 .modal-footer {

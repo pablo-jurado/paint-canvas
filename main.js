@@ -5,14 +5,18 @@ const canvas = document.getElementById("draw");
 const clearButton = document.getElementById("clear");
 const undoButton = document.getElementById("undo");
 const redoButton = document.getElementById("redo");
-const saveButton = document.getElementById("save");
-const openButton = document.getElementById("open");
+const saveModalButton = document.getElementById("save");
+const openModalButton = document.getElementById("open");
 const penButton = document.getElementById("pen");
 const eraserButton = document.getElementById("eraser");
 const selectedColor = document.getElementById("selectedColor");
 const modal = document.getElementById("modal-wrapper");
 const closeModalButton = document.getElementById("close-modal");
 const cancelModalButton = document.getElementById("cancel-modal");
+const openFileButton = document.getElementById("open-file");
+const saveFileButton = document.getElementById("save-modal");
+const modalFileInput = document.getElementById("modal-file-input");
+const modalFileList = document.getElementById("modal-file-list");
 
 const colorsButton = document.querySelector(".colors");
 const canvasSizeButton = document.querySelector(".canvasSize");
@@ -75,6 +79,8 @@ let currentStroke = [];
 let allStrokes = [];
 let strokeIndex = 0;
 let isDrawing = false;
+
+let savedFiles = [];
 
 //------------------------------------------------------------------------------
 // Functions
@@ -260,18 +266,66 @@ function handleKeyUp(event) {
   }
 }
 
-function handleSaveButton() {
-  // console.log(allStrokes);
-  // console.log(strokeIndex);
+function showSaveModal() {
   modal.classList.add("active", "save");
 }
 
-function handleOpenButton() {
+function showOpenModal() {
   modal.classList.add("active", "open");
+
+  let fileNames = "";
+  savedFiles.forEach(function(file) {
+    fileNames += `<option value="${file.name}">${file.name}</option>`;
+  });
+
+  modalFileList.innerHTML = fileNames;
 }
 
 function closeModal() {
   modal.classList.remove("active", "open", "save");
+}
+
+function saveFile() {
+  const fileName = modalFileInput.value;
+  if (fileName !== "") {
+    savedFiles.push({
+      name: fileName,
+      data: allStrokes,
+    });
+    localStorage.setItem("paint_files", JSON.stringify(savedFiles));
+  }
+  modalFileInput.value = "";
+  handleClearButton();
+  closeModal();
+}
+
+function getSavedFiles() {
+  let filesFromStorage = JSON.parse(localStorage.getItem("paint_files"));
+  if (filesFromStorage) {
+    savedFiles = filesFromStorage
+  }
+}
+
+function openFile() {
+  let fileName = modalFileList.value;
+  let fileData = null;
+  if (fileName) {
+    // reset canvas
+    handleClearButton();
+
+    for (let index = 0; index < savedFiles.length; index++) {
+      const file = savedFiles[index];
+      if (file.name === fileName) {
+        fileData = file.data;
+        break;
+      }
+    }
+
+    allStrokes = fileData;
+    strokeIndex = fileData.length;
+    repaint();
+    closeModal();
+  }
 }
 
 function addMouseListeners() {
@@ -290,10 +344,12 @@ function addButtonsListeners() {
   penButton.addEventListener("click", handlePenButton);
   eraserButton.addEventListener("click", handleEraserButton);
   brushesButton.addEventListener("click", handleBrushesButton);
-  saveButton.addEventListener("click", handleSaveButton);
-  openButton.addEventListener("click", handleOpenButton);
+  saveModalButton.addEventListener("click", showSaveModal);
+  openModalButton.addEventListener("click", showOpenModal);
   cancelModalButton.addEventListener("click", closeModal);
   closeModalButton.addEventListener("click", closeModal);
+  saveFileButton.addEventListener("click", saveFile);
+  openFileButton.addEventListener("click", openFile);
 }
 
 function addKeyboardListeners() {
@@ -306,6 +362,7 @@ function init() {
   addButtonsListeners();
   addKeyboardListeners();
   updateColor(colorOptions.black);
+  getSavedFiles();
 }
 
 init();
