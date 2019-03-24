@@ -8,6 +8,8 @@ Features to be added in the future:
   * Paint bucket.
   * Save files in Firebase instead of Local Storage.
 
+[Open App](https://pablo-jurado.github.io/paint-canvas/)
+
 # Screenshot
 
 <img src="screenshot.png" alt="Pain Application">
